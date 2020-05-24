@@ -1,6 +1,6 @@
 {
   "name": "mh-wave",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "悬浮球",
   "main": "dist/vue-wave.umd.js",
   "module": "dist/vue-wave.esm.js",
