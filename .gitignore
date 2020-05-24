@@ -1,0 +1,9 @@
+**/.idea
+**/node_modules
+
+**/.DS_Store
+**/npm-debug.log
+**/*.map
+package-lock.json
+.vscode/
+yarn.lock
