@@ -5,8 +5,8 @@
 
 
 ```bash
-npm install vue-wave
-yarn add vue-wave
+npm install mh-wave
+yarn add mh-wave
 ```
 
 
