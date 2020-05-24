@@ -1,4 +1,4 @@
-# vue-wave
+# mh-wave
 
 ## install
 
@@ -22,7 +22,7 @@ yarn add mh-wave
 ```js
 import Vue from 'vue'
 
-import VueWave from 'vue-wave'
+import VueWave from 'mh-wave'
 
 
 
@@ -44,7 +44,7 @@ Vue.use(VueWave)
 
 
 ```js
-import VueWave from 'vue-wave'
+import VueWave from 'mh-wave'
 
 new Vue({
     el: '#root',
@@ -63,13 +63,13 @@ new Vue({
 
 | Name           | Type            | Default | Desctiption                                                  |
 | -------------- | --------------- | ------- | ------------------------------------------------------------ |
-| Rate           | Number          | 0       | 比例值                                                       |
+| rate           | Number          | 0       | 比例值                                                       |
 | gap            | Number/String   | 5       | 内外圆间距                                                   |
 | width          | Number/String   | 100     | 悬浮球宽度                                                   |
 | borderColor    | String          | green   | 边框颜色                                                     |
 | borderWidth    | Number/String   | 3       | 边框宽度                                                     |
 | waveColor      | String/Function | green   | 波浪颜色，设置为Function时，可接收rate为参数，根据rate设置颜色 |
-| justifyContent | String          | Center  |                                                              |
-| alignItems     | String          | Center  |                                                              |
+| justifyContent | String          | center  |                                                              |
+| alignItems     | String          | center  |                                                              |
 |                |                 |         |                                                              |
 
