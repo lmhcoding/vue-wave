@@ -1,7 +1,7 @@
 {
   "name": "vue-wave",
   "version": "0.1.0",
-  "description": "",
+  "description": "悬浮球",
   "main": "dist/vue-wave.umd.js",
   "module": "dist/vue-wave.esm.js",
   "unpkg": "dist/vue-wave.min.js",
@@ -13,9 +13,21 @@
     "build:umd": "cross-env NODE_ENV=production rollup --config build/rollup.config.umd.js --format umd",
     "dev": "cross-env NODE_ENV=development rollup --config build/rollup.config.browser.js --watch"
   },
-  "keywords": [],
+  "keywords": [
+    "wave",
+    "vue-wave"
+  ],
   "author": "lmhcoding <13265878974@163.com> (https://github.com/lmhcoding)",
   "license": "MIT",
+  "homepage": "https://github.com/lmhcoding/vue-wave",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lmhcoding/vue-wave.git"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
