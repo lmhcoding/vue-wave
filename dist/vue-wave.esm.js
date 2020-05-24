@@ -1,14 +1,12 @@
+function formatToPx(n) {
+  return typeof n === 'number' ? n === 0 ? n : "".concat(n, "px") : n;
+}
+function px2Number(val) {
+  return typeof val === 'number' ? val : +val.replace(/px/, '');
+}
+
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 function validator(v) {
   return typeof v === 'number' || /\d+(px)?/.test(v);
 }
@@ -60,20 +58,19 @@ var script = {
     containerWidth: function containerWidth() {
       var width = this.width,
           borderWidth = this.borderWidth,
-          gap = this.gap,
-          px2Number = this.px2Number;
+          gap = this.gap;
       var DOUBLE = 2;
       var w = px2Number(width) - DOUBLE * (px2Number(borderWidth) + px2Number(gap));
       return w;
     },
     containerStyle: function containerStyle() {
       var width = this.width;
-      width = this.formatToPx(width);
+      width = formatToPx(width);
       return {
         width: width,
         height: width,
-        padding: this.formatToPx(this.gap),
-        border: "".concat(this.formatToPx(this.borderWidth), " solid ").concat(this.borderColor)
+        padding: formatToPx(this.gap),
+        border: "".concat(formatToPx(this.borderWidth), " solid ").concat(this.borderColor)
       };
     },
     wavesStyle: function wavesStyle() {
@@ -83,10 +80,9 @@ var script = {
           waveColor = this.waveColor,
           rate = this.rate,
           justifyContent = this.justifyContent,
-          alignItems = this.alignItems,
-          px2Number = this.px2Number;
+          alignItems = this.alignItems;
       var w = px2Number(width) - DOUBLE * (px2Number(borderWidth) + px2Number(gap));
-      var waveWidth = this.formatToPx(w);
+      var waveWidth = formatToPx(w);
       var waveBackground = typeof waveColor === 'function' ? waveColor(rate) : waveColor;
       return {
         width: waveWidth,
@@ -103,19 +99,17 @@ var script = {
     maskStyle: function maskStyle() {
       var maskWidth = this.maskWidth,
           step = this.step,
-          rate = this.rate,
-          formatToPx = this.formatToPx;
+          rate = this.rate;
       maskWidth = formatToPx(maskWidth);
       return {
         width: maskWidth,
         height: maskWidth,
-        top: this.formatToPx(-this.waveTop - step * rate)
+        top: formatToPx(-this.waveTop - step * rate)
       };
     },
     // 初始top值
     waveTop: function waveTop() {
       var borderWidth = this.borderWidth,
-          px2Number = this.px2Number,
           gap = this.gap,
           width = this.width,
           maskWidth = this.maskWidth;
@@ -123,17 +117,8 @@ var script = {
     },
     // 每递增1%，top新增的px数值
     step: function step() {
-      var height = this.wavesStyle.height,
-          px2Number = this.px2Number;
+      var height = this.wavesStyle.height;
       return px2Number(height) / FULL;
-    }
-  },
-  methods: {
-    formatToPx: function formatToPx(n) {
-      return typeof n === 'number' ? n === 0 ? n : "".concat(n, "px") : n;
-    },
-    px2Number: function px2Number(val) {
-      return typeof val === 'number' ? val : +val.replace(/px/, '');
     }
   }
 };
@@ -296,8 +281,8 @@ var __vue_staticRenderFns__ = [];
 
 var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
   if (!inject) return;
-  inject("data-v-43190b30_0", {
-    source: ".container[data-v-43190b30]{-webkit-box-sizing:border-box;box-sizing:border-box;border-radius:50%;background:#fff;position:relative;overflow:hidden}.wave[data-v-43190b30]{border-radius:50%;display:-webkit-box;display:-ms-flexbox;display:flex}.wave-mask[data-v-43190b30]{position:absolute;top:0;left:50%;border-radius:40%;background-color:rgba(255,255,255,.9);-webkit-transform:translate(-50%,0) rotate(0);transform:translate(-50%,0) rotate(0);z-index:20;-webkit-animation:toRotate-data-v-43190b30 10s linear -5s infinite;animation:toRotate-data-v-43190b30 10s linear -5s infinite}@-webkit-keyframes toRotate-data-v-43190b30{50%{-webkit-transform:translate(-50%,0) rotate(180deg);transform:translate(-50%,0) rotate(180deg)}100%{-webkit-transform:translate(-50%,0) rotate(360deg);transform:translate(-50%,0) rotate(360deg)}}@keyframes toRotate-data-v-43190b30{50%{-webkit-transform:translate(-50%,0) rotate(180deg);transform:translate(-50%,0) rotate(180deg)}100%{-webkit-transform:translate(-50%,0) rotate(360deg);transform:translate(-50%,0) rotate(360deg)}}",
+  inject("data-v-4180a12b_0", {
+    source: ".container[data-v-4180a12b]{-webkit-box-sizing:border-box;box-sizing:border-box;border-radius:50%;background:#fff;position:relative;overflow:hidden}.wave[data-v-4180a12b]{border-radius:50%;display:-webkit-box;display:-ms-flexbox;display:flex}.wave-mask[data-v-4180a12b]{position:absolute;top:0;left:50%;border-radius:40%;background-color:rgba(255,255,255,.9);-webkit-transform:translate(-50%,0) rotate(0);transform:translate(-50%,0) rotate(0);z-index:20;-webkit-animation:toRotate-data-v-4180a12b 10s linear -5s infinite;animation:toRotate-data-v-4180a12b 10s linear -5s infinite}@-webkit-keyframes toRotate-data-v-4180a12b{50%{-webkit-transform:translate(-50%,0) rotate(180deg);transform:translate(-50%,0) rotate(180deg)}100%{-webkit-transform:translate(-50%,0) rotate(360deg);transform:translate(-50%,0) rotate(360deg)}}@keyframes toRotate-data-v-4180a12b{50%{-webkit-transform:translate(-50%,0) rotate(180deg);transform:translate(-50%,0) rotate(180deg)}100%{-webkit-transform:translate(-50%,0) rotate(360deg);transform:translate(-50%,0) rotate(360deg)}}",
     map: undefined,
     media: undefined
   });
@@ -305,7 +290,7 @@ var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
 /* scoped */
 
 
-var __vue_scope_id__ = "data-v-43190b30";
+var __vue_scope_id__ = "data-v-4180a12b";
 /* module identifier */
 
 var __vue_module_identifier__ = undefined;

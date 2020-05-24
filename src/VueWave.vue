@@ -11,6 +11,8 @@
 
 <script>
 
+import { formatToPx, px2Number } from './util'
+
 function validator (v) {
   return typeof v === 'number' || /\d+(px)?/.test(v)
 }
@@ -62,7 +64,7 @@ export default {
   computed: {
     // 去除了padding、border后的宽度
     containerWidth () {
-      let { width, borderWidth, gap, px2Number } = this;
+      let { width, borderWidth, gap } = this;
 
       const DOUBLE = 2;
       let w = px2Number(width) - DOUBLE * (px2Number(borderWidth) + px2Number(gap));
@@ -70,12 +72,12 @@ export default {
     },
     containerStyle () {
       let { width } = this;
-      width = this.formatToPx(width);
+      width = formatToPx(width);
       return {
         width,
         height: width,
-        padding: this.formatToPx(this.gap),
-        border: `${this.formatToPx(this.borderWidth)} solid ${this.borderColor}`
+        padding: formatToPx(this.gap),
+        border: `${formatToPx(this.borderWidth)} solid ${this.borderColor}`
       };
     },
     wavesStyle () {
@@ -87,10 +89,9 @@ export default {
         rate, 
         justifyContent,
         alignItems,
-        px2Number 
       } = this;
       let w = px2Number(width) - DOUBLE * (px2Number(borderWidth) + px2Number(gap));
-      let waveWidth = this.formatToPx(w);
+      let waveWidth = formatToPx(w);
       let waveBackground = typeof waveColor=== 'function' ? waveColor(rate) : waveColor;
       return {
         width: waveWidth,
@@ -105,19 +106,18 @@ export default {
       return DOUBLE * containerWidth;
     },
     maskStyle () {
-      let { maskWidth, step, rate, formatToPx } = this;
+      let { maskWidth, step, rate } = this;
       maskWidth = formatToPx(maskWidth)
       return {
         width: maskWidth,
         height: maskWidth,
-        top: this.formatToPx(-this.waveTop - step * rate) 
+        top: formatToPx(-this.waveTop - step * rate) 
       }
     },
     // 初始top值
     waveTop () {
       let { 
         borderWidth, 
-        px2Number, 
         gap,
         width,
         maskWidth
@@ -130,22 +130,8 @@ export default {
     },
     // 每递增1%，top新增的px数值
     step () {
-      let { wavesStyle: {height}, px2Number} = this;
+      let { wavesStyle: {height} } = this;
       return px2Number(height) / FULL;
-    }
-  },
-  methods: {
-    formatToPx (n) {
-      return typeof n === 'number' ? 
-        n === 0 ?
-        n :
-        `${n}px` :
-        n;
-    },
-    px2Number (val) {
-      return typeof val === 'number' ? 
-        val :
-        +val.replace(/px/, '')
     }
   }
 }
