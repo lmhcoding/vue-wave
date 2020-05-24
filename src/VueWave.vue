@@ -1,6 +1,6 @@
 <template>
   <div class="container" :style="containerStyle">
-    <div class="wave" :style="wavesStyle">
+    <div class="wave" :style="waveStyle">
       <slot :rate="rate" />
     </div>
 
@@ -80,7 +80,7 @@ export default {
         border: `${formatToPx(this.borderWidth)} solid ${this.borderColor}`
       };
     },
-    wavesStyle () {
+    waveStyle () {
       let { 
         width, 
         borderWidth, 
@@ -130,7 +130,7 @@ export default {
     },
     // 每递增1%，top新增的px数值
     step () {
-      let { wavesStyle: {height} } = this;
+      let { waveStyle: {height} } = this;
       return px2Number(height) / FULL;
     }
   }

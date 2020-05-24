@@ -6,6 +6,6 @@ module.exports = {
       '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
     },
     collectCoverage: true,
-    collectCoverageFrom: ['src/*.{js,vue}', '!src/alloyfinger.js'],
+    collectCoverageFrom: ['src/*.{js,vue}'],
     coverageReporters: ['text'],
 }

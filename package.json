@@ -17,11 +17,13 @@
   "author": "lmhcoding <13265878974@163.com> (https://github.com/lmhcoding)",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@rollup/plugin-babel": "^5.0.2",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@vue/test-utils": "^1.0.3",
     "autoprefixer": "^9.8.0",
+    "babel-core": "^7.0.0-0",
     "babel-jest": "^26.0.1",
     "cross-env": "^7.0.2",
     "eslint-plugin-vue": "^6.2.2",

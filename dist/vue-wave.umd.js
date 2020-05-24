@@ -4,11 +4,12 @@
     (global = global || self, factory(global['vue-easy-slider'] = {}));
 }(this, (function (exports) { 'use strict';
 
+    var pxReg = /\d+\s*px/;
     function formatToPx(n) {
-      return typeof n === 'number' ? n === 0 ? n : "".concat(n, "px") : n;
+      return typeof n === 'number' ? n === 0 ? n : "".concat(n, "px") : typeof n === 'string' && pxReg.test(n) ? n.replace(/\s/g, '') : '';
     }
     function px2Number(val) {
-      return typeof val === 'number' ? val : +val.replace(/px/, '');
+      return typeof val === 'number' ? val : typeof val === 'string' && pxReg.test(val) ? +val.replace(/px/, '') : 0;
     }
 
     //
@@ -79,7 +80,7 @@
             border: "".concat(formatToPx(this.borderWidth), " solid ").concat(this.borderColor)
           };
         },
-        wavesStyle: function wavesStyle() {
+        waveStyle: function waveStyle() {
           var width = this.width,
               borderWidth = this.borderWidth,
               gap = this.gap,
@@ -123,7 +124,7 @@
         },
         // 每递增1%，top新增的px数值
         step: function step() {
-          var height = this.wavesStyle.height;
+          var height = this.waveStyle.height;
           return px2Number(height) / FULL;
         }
       }
@@ -273,7 +274,7 @@
         style: _vm.containerStyle
       }, [_c('div', {
         staticClass: "wave",
-        style: _vm.wavesStyle
+        style: _vm.waveStyle
       }, [_vm._t("default", null, {
         "rate": _vm.rate
       })], 2), _vm._v(" "), _c('div', {
@@ -287,8 +288,8 @@
 
     var __vue_inject_styles__ = function __vue_inject_styles__(inject) {
       if (!inject) return;
-      inject("data-v-4180a12b_0", {
-        source: ".container[data-v-4180a12b]{-webkit-box-sizing:border-box;box-sizing:border-box;border-radius:50%;background:#fff;position:relative;overflow:hidden}.wave[data-v-4180a12b]{border-radius:50%;display:-webkit-box;display:-ms-flexbox;display:flex}.wave-mask[data-v-4180a12b]{position:absolute;top:0;left:50%;border-radius:40%;background-color:rgba(255,255,255,.9);-webkit-transform:translate(-50%,0) rotate(0);transform:translate(-50%,0) rotate(0);z-index:20;-webkit-animation:toRotate-data-v-4180a12b 10s linear -5s infinite;animation:toRotate-data-v-4180a12b 10s linear -5s infinite}@-webkit-keyframes toRotate-data-v-4180a12b{50%{-webkit-transform:translate(-50%,0) rotate(180deg);transform:translate(-50%,0) rotate(180deg)}100%{-webkit-transform:translate(-50%,0) rotate(360deg);transform:translate(-50%,0) rotate(360deg)}}@keyframes toRotate-data-v-4180a12b{50%{-webkit-transform:translate(-50%,0) rotate(180deg);transform:translate(-50%,0) rotate(180deg)}100%{-webkit-transform:translate(-50%,0) rotate(360deg);transform:translate(-50%,0) rotate(360deg)}}",
+      inject("data-v-2eff9806_0", {
+        source: ".container[data-v-2eff9806]{-webkit-box-sizing:border-box;box-sizing:border-box;border-radius:50%;background:#fff;position:relative;overflow:hidden}.wave[data-v-2eff9806]{border-radius:50%;display:-webkit-box;display:-ms-flexbox;display:flex}.wave-mask[data-v-2eff9806]{position:absolute;top:0;left:50%;border-radius:40%;background-color:rgba(255,255,255,.9);-webkit-transform:translate(-50%,0) rotate(0);transform:translate(-50%,0) rotate(0);z-index:20;-webkit-animation:toRotate-data-v-2eff9806 10s linear -5s infinite;animation:toRotate-data-v-2eff9806 10s linear -5s infinite}@-webkit-keyframes toRotate-data-v-2eff9806{50%{-webkit-transform:translate(-50%,0) rotate(180deg);transform:translate(-50%,0) rotate(180deg)}100%{-webkit-transform:translate(-50%,0) rotate(360deg);transform:translate(-50%,0) rotate(360deg)}}@keyframes toRotate-data-v-2eff9806{50%{-webkit-transform:translate(-50%,0) rotate(180deg);transform:translate(-50%,0) rotate(180deg)}100%{-webkit-transform:translate(-50%,0) rotate(360deg);transform:translate(-50%,0) rotate(360deg)}}",
         map: undefined,
         media: undefined
       });
@@ -296,7 +297,7 @@
     /* scoped */
 
 
-    var __vue_scope_id__ = "data-v-4180a12b";
+    var __vue_scope_id__ = "data-v-2eff9806";
     /* module identifier */
 
     var __vue_module_identifier__ = undefined;

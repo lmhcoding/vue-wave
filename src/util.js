@@ -1,15 +1,21 @@
+const pxReg = /\d+\s*px/
+
 export function formatToPx (n) {
     return typeof n === 'number' ? 
     n === 0 ?
     n :
     `${n}px` :
-    n;
+    typeof n === 'string' && pxReg.test(n) ?
+    n.replace(/\s/g, '') :
+    ''
 }
 
 
 export function px2Number (val) {
     return typeof val === 'number' ? 
     val :
-    +val.replace(/px/, '')
+    typeof val === 'string' && pxReg.test(val) ? 
+    +val.replace(/px/, '') :
+    0
 }
 
