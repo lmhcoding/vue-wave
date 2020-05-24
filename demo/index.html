@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="wave">
+        <vue-wave :rate="50" />
+    </div>
+    <script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
+    <script src="../dist/vue-wave.min.js"></script>
+    <script>
+      new Vue({
+          el: '#wave'
+      })
+    </script>
+  </body>
+</html>
