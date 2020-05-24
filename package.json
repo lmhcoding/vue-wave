@@ -1,5 +1,5 @@
 {
-  "name": "vue-wave",
+  "name": "mh-wave",
   "version": "0.1.0",
   "description": "悬浮球",
   "main": "dist/vue-wave.umd.js",
