@@ -1,4 +1,4 @@
-import { formatToPx, px2Number } from '../src/util'
+import { formatToPx, px2Number, validator, getWaveColor } from '../src/util'
 
 describe('util test', () => {
     test('convert to px', () => {
@@ -13,5 +13,20 @@ describe('util test', () => {
         expect(px2Number(1)).toEqual(1)
         expect(px2Number('1 px')).toEqual(1)
         expect(px2Number(void 0)).toEqual(0)
+    })
+    test('validator', () => {
+        expect(validator(1)).toEqual(true)
+        expect(validator(void 0)).toEqual(false)
+        expect(validator('1px')).toEqual(true)
+        expect(validator('1')).toEqual(true)
+        expect(validator('')).toEqual(false)
+    })
+    test('function getWaveColor', () => {
+        function colorMap (rate) {
+            return rate > 50 ? 'red' : 'green'
+        }
+        expect(getWaveColor('green')).toEqual('green')
+        expect(getWaveColor(colorMap, 10)).toEqual('green')
+        expect(getWaveColor(colorMap, 60)).toEqual('red')
     })
 })

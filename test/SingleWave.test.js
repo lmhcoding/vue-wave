@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import VueWave from '../dist/vue-wave.esm'
+import VueWave from '../src/SingleWave.vue'
 
 describe('VueWave default props', () => {
     const wrapper = mount(VueWave)

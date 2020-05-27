@@ -1,8 +1,11 @@
-import VueWave from './VueWave.vue'
+import SingleWave from './SingleWave.vue'
+import DoubleWave from './DoubleWave.vue'
 
-VueWave.install = Vue => {
-  Vue.component(VueWave.name, VueWave)
+function install (Vue) {
+  Vue.component(SingleWave.name, SingleWave)
+  Vue.component(DoubleWave.name, DoubleWave)
 }
+
 
 let GlobalVue = null
 if (typeof window !== 'undefined') {
@@ -11,7 +14,11 @@ if (typeof window !== 'undefined') {
   GlobalVue = global.Vue
 }
 if (GlobalVue) {
-  GlobalVue.use(VueWave)
+  GlobalVue.use(install)
 }
 
-export default VueWave
+export default {
+  install,
+  SingleWave,
+  DoubleWave
+}

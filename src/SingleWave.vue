@@ -11,18 +11,14 @@
 
 <script>
 
-import { formatToPx, px2Number } from './util'
-
-function validator (v) {
-  return typeof v === 'number' || /\d+(px)?/.test(v)
-}
+import { formatToPx, px2Number, getWaveColor, validator } from './util'
+import { DEFAULT_WAVE_COLOR } from './const'
 
 const DOUBLE = 2;
 const FULL = 100;
-const DEFAULT_WAVE_COLOR = 'green';
 
 export default {
-  name: 'VueWave',
+  name: 'SingleWave',
   props: {
     rate: {
       type: Number,
@@ -62,14 +58,25 @@ export default {
   },
 
   computed: {
+    toNumberWidth () {
+      return px2Number(this.width)
+    },
+
+    toNumberBorderWidth () {
+      return px2Number(this.borderWidth)
+    },
+
+    toNumberGap () {
+      return px2Number(this.gap)
+    },
+
     // 去除了padding、border后的宽度
     containerWidth () {
-      let { width, borderWidth, gap } = this;
-
+      let { toNumberWidth, toNumberBorderWidth, toNumberGap } = this;
       const DOUBLE = 2;
-      let w = px2Number(width) - DOUBLE * (px2Number(borderWidth) + px2Number(gap));
-      return w;
+      return toNumberWidth - DOUBLE * (toNumberBorderWidth + toNumberGap)
     },
+
     containerStyle () {
       let { width } = this;
       width = formatToPx(width);
@@ -81,25 +88,7 @@ export default {
       };
     },
     waveStyle () {
-      let { 
-        width, 
-        borderWidth, 
-        gap, 
-        waveColor, 
-        rate, 
-        justifyContent,
-        alignItems,
-      } = this;
-      let w = px2Number(width) - DOUBLE * (px2Number(borderWidth) + px2Number(gap));
-      let waveWidth = formatToPx(w);
-      let waveBackground = typeof waveColor=== 'function' ? waveColor(rate) : waveColor;
-      return {
-        width: waveWidth,
-        height: waveWidth,
-        background: typeof waveBackground === 'string' ? waveBackground : DEFAULT_WAVE_COLOR,
-        justifyContent,
-        alignItems
-      }
+      return this.getWaveStyle()
     },
     maskWidth () {
       let { containerWidth } = this;
@@ -117,21 +106,44 @@ export default {
     // 初始top值
     waveTop () {
       let { 
-        borderWidth, 
-        gap,
-        width,
+        toNumberBorderWidth, 
+        toNumberGap,
+        toNumberWidth,
         maskWidth
       } = this;
       return maskWidth - 
-        px2Number(width) + 
+        toNumberWidth + 
         DOUBLE * 
-        px2Number(borderWidth) + 
-        px2Number(gap)
+        toNumberBorderWidth + 
+        toNumberGap
     },
     // 每递增1%，top新增的px数值
     step () {
-      let { waveStyle: {height} } = this;
+      const { waveStyle: {height} } = this;
       return px2Number(height) / FULL;
+    }
+  },
+  methods: {
+    getWaveStyle () {
+      const { 
+        toNumberWidth, 
+        toNumberBorderWidth, 
+        toNumberGap, 
+        waveColor, 
+        rate, 
+        justifyContent,
+        alignItems,
+      } = this;
+      const w = toNumberWidth - DOUBLE * (toNumberBorderWidth + toNumberGap);
+      const waveWidth = formatToPx(w);
+      const background = getWaveColor(waveColor, rate)
+      return {
+        width: waveWidth,
+        height: waveWidth,
+        background,
+        justifyContent,
+        alignItems
+      }
     }
   }
 }

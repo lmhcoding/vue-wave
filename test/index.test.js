@@ -1,10 +1,12 @@
 import { createLocalVue } from '@vue/test-utils'
+import VueWave from '../src/index'
 
-import VueWave from '../dist/vue-wave.esm'
 
 describe('Component name', () => {
     test('is VueWave', () => {
-        expect(VueWave.name).toEqual('VueWave')
+        const { SingleWave, DoubleWave } = VueWave
+        expect(SingleWave.name).toEqual('SingleWave')
+        expect(DoubleWave.name).toEqual('DoubleWave')
     })
 })
 
