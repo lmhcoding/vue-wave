@@ -37,19 +37,21 @@ Vue.use(VueWave)
 
 ```HTML
 <template>
-  <vue-wave :rate="rate" />
+  <single-wave :rate="rate" />
+  <double-wave :rate="rate" />
 </template>
 ```
 
 
 
 ```js
-import VueWave from 'mh-wave'
+import { SingleWave, DoubleWave } from 'mh-wave'
 
 new Vue({
     el: '#root',
     components: {
-        VueWave
+        SingleWave,
+        DoubleWave
     },
 
     data: {
@@ -59,7 +61,9 @@ new Vue({
 })
 ```
 
-## props
+## SingleWave
+
+### props
 
 | Name           | Type            | Default | Desctiption                                                  |
 | -------------- | --------------- | ------- | ------------------------------------------------------------ |
@@ -73,3 +77,16 @@ new Vue({
 | alignItems     | String          | center  |                                                              |
 |                |                 |         |                                                              |
 
+
+## DoubleWave
+
+### props
+
+| Name         | Type            | Default | Description                                                  |
+| ------------ | --------------- | ------- | ------------------------------------------------------------ |
+| rate         | Number          | 0       | 比例值                                                       |
+| waveRadius   | Number/String   | 70px    | 水波半径                                                     |
+| circleHeight | Number/String   | 200px   | 圆球高度                                                     |
+| waveColor    | String/Function | green   | 波浪颜色，设置为Function时，可接收rate为参数，根据rate设置颜色 |
+| initialColor | String          | #fff    | rate为0时的颜色                                              |
+| fullRate     | Number          | 100     | 最大rate值                                                   |
