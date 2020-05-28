@@ -7,6 +7,12 @@ function formatToPx(n) {
 function px2Number(val) {
   return typeof val === 'number' ? val : typeof val === 'string' && pxReg.test(val) ? +val.replace(/px/, '') : 0;
 }
+function validator(v) {
+  return isNumber(v) || isString(v) && /\d+(px)?/.test(v);
+}
+function isNumber(v) {
+  return typeof v === 'number';
+}
 function isString(val) {
   return typeof val === 'string';
 }
@@ -18,14 +24,8 @@ function getWaveColor(color, rate) {
 }
 
 //
-
-function validator(v) {
-  return typeof v === 'number' || /\d+(px)?/.test(v);
-}
-
 var DOUBLE = 2;
 var FULL = 100;
-var DEFAULT_WAVE_COLOR$1 = 'green';
 var script = {
   name: 'SingleWave',
   props: {
@@ -54,7 +54,7 @@ var script = {
     },
     waveColor: {
       type: [Function, String],
-      default: DEFAULT_WAVE_COLOR$1
+      default: DEFAULT_WAVE_COLOR
     },
     justifyContent: {
       type: String,
@@ -81,7 +81,7 @@ var script = {
           toNumberBorderWidth = this.toNumberBorderWidth,
           toNumberGap = this.toNumberGap;
       var DOUBLE = 2;
-      return toNumberWidth - DOUBLE * toNumberBorderWidth + toNumberGap;
+      return toNumberWidth - DOUBLE * (toNumberBorderWidth + toNumberGap);
     },
     containerStyle: function containerStyle() {
       var width = this.width;
@@ -254,7 +254,7 @@ var __vue_staticRenderFns__ = [];
 var __vue_inject_styles__ = undefined;
 /* scoped */
 
-var __vue_scope_id__ = "data-v-353499dc";
+var __vue_scope_id__ = "data-v-220d6688";
 /* module identifier */
 
 var __vue_module_identifier__ = undefined;
@@ -273,6 +273,7 @@ var __vue_component__ = /*#__PURE__*/normalizeComponent({
 }, __vue_inject_styles__, __vue_script__, __vue_scope_id__, __vue_is_functional_template__, __vue_module_identifier__, false, undefined, undefined, undefined);
 
 //
+var uid = 0;
 var script$1 = {
   name: 'DoubleWave',
   props: {
@@ -299,6 +300,10 @@ var script$1 = {
     fullRate: {
       type: Number,
       default: 100
+    },
+    loopTime: {
+      type: Number,
+      default: 6
     }
   },
   computed: {
@@ -333,7 +338,7 @@ var script$1 = {
       var waveColor = this.getWaveColor();
       return {
         height: height,
-        background: "radial-gradient(".concat(waveR, " circle at 0 0px, #fff ").concat(waveR, ", transparent), \n                    radial-gradient(").concat(waveR, " circle at ").concat(waveR, " ").concat(height, ", ").concat(waveColor, " ").concat(waveR, ", transparent), \n                    radial-gradient(").concat(waveR, " circle at ").concat(doubleWaveR, " 0px, #fff ").concat(waveR, ", transparent)"),
+        backgroundImage: "radial-gradient(".concat(waveR, " circle at 0 0px, #fff ").concat(waveR, ", transparent), \n                    radial-gradient(").concat(waveR, " circle at ").concat(waveR, " ").concat(height, ", ").concat(waveColor, " ").concat(waveR, ", transparent), \n                    radial-gradient(").concat(waveR, " circle at ").concat(doubleWaveR, " 0px, #fff ").concat(waveR, ", transparent)"),
         backgroundSize: "".concat(backgroundSize, " ").concat(backgroundSize),
         top: formatToPx(-1 * px2Number(height) / 2)
       };
@@ -369,6 +374,12 @@ var script$1 = {
   created: function created() {
     this.generateKeyFrames();
   },
+  mounted: function mounted() {
+    this.setAnimation();
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.removeKeyframes();
+  },
   methods: {
     getWaveColor: function getWaveColor$1() {
       var waveColor = this.waveColor,
@@ -379,9 +390,26 @@ var script$1 = {
       var waveR = this.waveR;
       var translateX = -4 * waveR + 'px';
       var style = document.createElement('style');
+      this.keyframeID = "mh-wave__keyframes_".concat(uid++);
+      this.firstAnimation = "wave".concat(uid++);
+      this.secondAnimation = "wave".concat(uid++);
       style.setAttribute('type', 'text/css');
-      style.innerHTML = "\n                @keyframes wave {\n                    from { transform: translatex(".concat(translateX, ") }\n                    to { transform: translatex(0px) }\n                }\n\n                @keyframes wave1 {\n                    from { transform: translatex(0px) }\n                    to { transform: translatex(").concat(translateX, ") }\n                }\n            ");
+      style.setAttribute('id', this.keyframeID);
+      style.innerHTML = "\n                @keyframes ".concat(this.firstAnimation, " {\n                    from { transform: translatex(").concat(translateX, ") }\n                    to { transform: translatex(0px) }\n                }\n\n                @keyframes ").concat(this.secondAnimation, " {\n                    from { transform: translatex(0px) }\n                    to { transform: translatex(").concat(translateX, ") }\n                }\n            ");
       document.head.appendChild(style);
+    },
+    removeKeyframes: function removeKeyframes() {
+      var style = document.getElementById(this.keyframeID);
+      document.head.removeChild(style);
+    },
+    setAnimation: function setAnimation() {
+      var wave1 = this.$refs.wave1;
+      var wave2 = this.$refs.wave2;
+      var loopTime = this.loopTime,
+          firstAnimation = this.firstAnimation,
+          secondAnimation = this.secondAnimation;
+      wave1.style.animation = "".concat(firstAnimation, " linear infinite ").concat(loopTime, "s");
+      wave2.style.animation = "".concat(secondAnimation, " linear infinite ").concat(loopTime, "s");
     }
   }
 };
@@ -406,12 +434,14 @@ var __vue_render__$1 = function __vue_render__() {
   }, [_vm._t("default", null, {
     "rate": _vm.rate
   })], 2), _vm._v(" "), _c('div', {
+    ref: "wave1",
     staticClass: "wave first-wave",
     style: _vm.waveStyle
   }, [_c('div', {
     staticClass: "wave-inner",
     style: _vm.waveInnerStyle
   })]), _vm._v(" "), _c('div', {
+    ref: "wave2",
     staticClass: "wave second-wave",
     style: _vm.wave2Style
   }, [_c('div', {
@@ -426,7 +456,7 @@ var __vue_staticRenderFns__$1 = [];
 var __vue_inject_styles__$1 = undefined;
 /* scoped */
 
-var __vue_scope_id__$1 = "data-v-0d30fc7c";
+var __vue_scope_id__$1 = "data-v-53d2d9dc";
 /* module identifier */
 
 var __vue_module_identifier__$1 = undefined;
@@ -461,10 +491,5 @@ if (GlobalVue) {
   GlobalVue.use(install);
 }
 
-var index = {
-  install: install,
-  SingleWave: __vue_component__,
-  DoubleWave: __vue_component__$1
-};
-
-export default index;
+export default install;
+export { __vue_component__$1 as DoubleWave, __vue_component__ as SingleWave };

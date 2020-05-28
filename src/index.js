@@ -17,8 +17,9 @@ if (GlobalVue) {
   GlobalVue.use(install)
 }
 
-export default {
-  install,
+export default install
+
+export {
   SingleWave,
   DoubleWave
 }

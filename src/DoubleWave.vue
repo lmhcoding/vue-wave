@@ -4,12 +4,12 @@
       <slot :rate="rate" />
     </div>
     <!-- eslint-disable-next-line vue/html-self-closing -->
-    <div class="wave first-wave" :style="waveStyle">
+    <div ref="wave1" class="wave first-wave" :style="waveStyle">
       <!-- eslint-disable-next-line vue/html-self-closing -->
       <div :style="waveInnerStyle" class="wave-inner"></div>
     </div>
     <!-- eslint-disable-next-line vue/html-self-closing -->
-    <div class="wave second-wave" :style="wave2Style">
+    <div ref="wave2" class="wave second-wave" :style="wave2Style">
       <!-- eslint-disable-next-line vue/html-self-closing -->
       <div :style="waveInnerStyle" class="wave-inner"></div>
     </div>
@@ -23,6 +23,8 @@ import {
     getWaveColor
 } from './util'
 import { DEFAULT_WAVE_COLOR } from './const'
+
+let uid = 0
 
 export default {
     name: 'DoubleWave',
@@ -50,6 +52,10 @@ export default {
         fullRate: {
             type: Number,
             default: 100
+        },
+        loopTime: {
+            type: Number,
+            default: 6
         }
     },
     computed: {
@@ -81,7 +87,7 @@ export default {
             let waveColor = this.getWaveColor()
             return {
                 height,
-                background: `radial-gradient(${waveR} circle at 0 0px, #fff ${waveR}, transparent), 
+                backgroundImage: `radial-gradient(${waveR} circle at 0 0px, #fff ${waveR}, transparent), 
                     radial-gradient(${waveR} circle at ${waveR} ${height}, ${waveColor} ${waveR}, transparent), 
                     radial-gradient(${waveR} circle at ${doubleWaveR} 0px, #fff ${waveR}, transparent)`,
                 backgroundSize: `${backgroundSize} ${backgroundSize}`,
@@ -118,6 +124,13 @@ export default {
     created () {
         this.generateKeyFrames()
     },
+    mounted () {
+        this.setAnimation()
+    },
+
+    beforeDestroy () {
+        this.removeKeyframes()
+    },
 
     methods: {
         getWaveColor () {
@@ -125,22 +138,38 @@ export default {
             return getWaveColor(waveColor, rate)
         },
         generateKeyFrames () {
+            
             const { waveR } = this
             const translateX = (-4 * waveR) + 'px'
             const style = document.createElement('style')
+            this.keyframeID = `mh-wave__keyframes_${uid++}`
+            this.firstAnimation = `wave${uid++}`
+            this.secondAnimation = `wave${uid++}`
             style.setAttribute('type', 'text/css')
+            style.setAttribute('id', this.keyframeID)
             style.innerHTML = `
-                @keyframes wave {
+                @keyframes ${this.firstAnimation} {
                     from { transform: translatex(${translateX}) }
                     to { transform: translatex(0px) }
                 }
 
-                @keyframes wave1 {
+                @keyframes ${this.secondAnimation} {
                     from { transform: translatex(0px) }
                     to { transform: translatex(${translateX}) }
                 }
             `
             document.head.appendChild(style)
+        },
+        removeKeyframes () {
+            let style = document.getElementById(this.keyframeID)
+            document.head.removeChild(style)
+        },
+        setAnimation () {
+            const wave1 = this.$refs.wave1
+            const wave2 = this.$refs.wave2
+            const { loopTime, firstAnimation, secondAnimation } = this
+            wave1.style.animation =  `${firstAnimation} linear infinite ${loopTime}s`
+            wave2.style.animation = `${secondAnimation} linear infinite ${loopTime}s`
         }
     }
 }
@@ -150,7 +179,6 @@ export default {
 
     .wave 
         position absolute
-        animation: wave linear infinite 6s
     
         & .wave-inner 
             content ''
@@ -163,7 +191,6 @@ export default {
 
     .second-wave 
         z-index 1
-        animation-name wave1
 
     .circle 
         position relative
